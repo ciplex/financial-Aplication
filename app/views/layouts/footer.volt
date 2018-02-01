@@ -1,0 +1,22 @@
+<!-- Bootstrap 3.3.7 -->
+{{ javascript_include("assets/bower_components/bootstrap/dist/js/bootstrap.min.js") }}
+<!-- DataTables -->
+{{ javascript_include("assets/bower_components/datatables.net/js/jquery.dataTables.min.js") }}
+{{ javascript_include("assets/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js") }}
+<!-- Slimscroll -->
+{{ javascript_include("assets/bower_components/jquery-slimscroll/jquery.slimscroll.min.js") }}
+<!-- FastClick -->
+{{ javascript_include("assets/bower_components/fastclick/lib/fastclick.js") }}
+<!-- AdminLTE App -->
+{{ javascript_include("assets/dist/js/adminlte.min.js") }}
+<!-- AdminLTE for demo purposes -->
+{{ javascript_include("assets/dist/js/demo.js") }}
+<!-- page script -->
+{{ javascript_include("assets/pnotify/pnotify.js") }}
+{{ javascript_include("assets/pnotify/pnotify.buttons.js") }}
+{{ javascript_include("assets/pnotify/pnotify.nonblock.js") }}
+<!-- date-range-picker -->
+{{ javascript_include("assets/bower_components/moment/min/moment.min.js") }}
+{{ javascript_include("assets/bower_components/bootstrap-daterangepicker/daterangepicker.js") }}
+<!-- bootstrap datepicker -->
+{{ javascript_include("assets/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js") }}
