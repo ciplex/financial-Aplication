@@ -44,6 +44,7 @@
           <ul class="treeview-menu">
             <li><a href="rekapharian"><i class="fa fa-circle-o"></i> Rekap Harian</a></li>
             <li><a href="rekapakun"><i class="fa fa-circle-o"></i> Rekap Akun</a></li>
+            <li><a href="rekaphistory"><i class="fa fa-circle-o"></i> Rekap History</a></li>
           </ul>
         </li>
         

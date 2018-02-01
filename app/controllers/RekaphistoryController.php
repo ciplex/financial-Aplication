@@ -5,7 +5,7 @@ class RekaphistoryController extends \Phalcon\Mvc\Controller
 
     public function indexAction()
     {
-
+        
     }
 
     public function getAjaxAction()
@@ -28,4 +28,6 @@ class RekaphistoryController extends \Phalcon\Mvc\Controller
         $json_data = $user->getDataHistory();
         die(json_encode($json_data));
     }
+
 }
+
