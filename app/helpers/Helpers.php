@@ -59,5 +59,23 @@ class Helpers
       return $dataBulan;
 
    }
+
+   public function dataAkun($selected = null)
+   {
+    $Akun = RefAkun::find([
+        'Akun' => 'id',
+        'group' => 'Kode'
+     ]);
+     $dataAkun = '<option value="">- Pilih Akun -</option>';
+     foreach ($Kode as $key => $value) {
+        if ($selected == $value->ID) {
+           $dataAkun.='<option value="'.$value->ID.'" selected>'.$value->Kode.'</option>';
+        } else {
+           $dataAkun.='<option value="'.$value->ID.'" >'.$value->Kode.'</option>';
+           
+        }
+     }
+     return $dataAkun;
+   }
 }
 ?>

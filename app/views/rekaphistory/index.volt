@@ -13,7 +13,7 @@
 <section class="content">
   <div class="row">
      <div class="col-xs-12">
-        <div class="box box-success collapsed-box">
+        <div class="box box-success collapsed-box callout callout-info">
            <div class="box-header with-border">
               <h3 class="box-title">Filter</h3>
 
@@ -26,16 +26,29 @@
            <div class="box-body">
               <!-- Date -->
               <div class="row">
-                 <div class="col-xs-6">
-                    <select name="Bulan" id="Bulan" class="form-control">
-                       {{ Helpers.dataBulan() }}
-                    </select>
+                 <div class="col-md-4">
+                   <div class="callout callout-success">
+                          <select name="Bulan" id="Bulan" class="form-control">
+                              {{ Helpers.dataBulan() }}
+                           </select>
+                   </div>
                  </div>
-                 <div class="col-xs-6">
-                    <select name="Tahun" id="Tahun" class="form-control">
-                       {{ Helpers.dataTahun() }}
-                    </select>
-                 </div>
+                 <div class="col-md-4">
+                    <div class="callout callout-success">
+                            <select name="Kode" id="Kode" class="form-control">
+                       
+                              </select>
+                          </div>
+                      </div>
+                 <div class="col-md-4">
+                   <div class="callout callout-success">
+                          <select name="Tahun" id="Tahun" class="form-control">
+                              {{ Helpers.dataTahun() }}
+                           </select>
+                        </div>  
+                    
+                    </div>
+                 <!-- end row -->
               </div>
               <!-- /.form group -->
 
@@ -69,6 +82,24 @@
      </div>
   </div>
 
+</section>
+
+<section class="content">
+  <div class="box box-info">
+      <div class="box-header with-border">
+          <h3 class="box-title">Line Chart</h3>
+
+          <div class="box-tools pull-right">
+          <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+          </button>
+          <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+          </div>
+      </div>
+      <div class="box-body chart-responsive">
+          <div class="chart" id="line-chart" style="height: 300px;"></div>
+      </div>
+      <!-- /.box-body -->
+  </div>
 </section>
 
 <script>
