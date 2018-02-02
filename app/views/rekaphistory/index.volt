@@ -84,7 +84,7 @@
 
 </section>
 
-<section class="content">
+<!-- <section class="content">
   <div class="box box-info">
       <div class="box-header with-border">
           <h3 class="box-title">Line Chart</h3>
@@ -98,9 +98,9 @@
       <div class="box-body chart-responsive">
           <div class="chart" id="line-chart" style="height: 300px;"></div>
       </div>
-      <!-- /.box-body -->
+       //box-body 
   </div>
-</section>
+</section> -->
 
 <script>
 
