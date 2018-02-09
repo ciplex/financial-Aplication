@@ -8,7 +8,7 @@ class RekaphistoryController extends \Phalcon\Mvc\Controller
 
     }
 
-    public function getAjaxAction()
+    public function getAjaxeAction()
     {
         $user = new ViewHistoryPerhari();
         $json_data = $user->getDataHistory();
@@ -123,6 +123,17 @@ class RekaphistoryController extends \Phalcon\Mvc\Controller
          $json_data = $user->getDataGraphic();
       }
       die(json_encode($json_data));
+    }
+
+    public function getAjaxAction()
+    {
+        // $user = new User();
+        // $json_data = $user->getDataUser();
+        // die(json_encode($json_data));
+
+        $curl = new Helpers();
+        $res = $curl->curlget('http://localhost/keu_qodr/rekaphistory/getAjaxPertahun');
+        die($res);
     }
 }
 
