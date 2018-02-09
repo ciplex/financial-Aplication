@@ -26,5 +26,6 @@
   },
   "_source": "https://github.com/oesmith/morris.js.git",
   "_target": "^0.5.1",
-  "_originalSource": "morris.js"
+  "_originalSource": "morris.js",
+  "_direct": true
 }

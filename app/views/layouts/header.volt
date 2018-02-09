@@ -1,6 +1,6 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>AdminLTE 2 | Data Tables</title>
+<title>Keuangan Qodr</title>
 <!-- Tell the browser to be responsive to screen width -->
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 <!-- Bootstrap 3.3.7 -->
@@ -26,17 +26,20 @@
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
+
 <!-- Google Font -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 <!-- PNotify -->
-{{ stylesheet_link("assets/pnotify/pnotify.css")}} 
-{{ stylesheet_link("assets/pnotify/pnotify.brighttheme.css")}}
+{{ stylesheet_link("assets/pnotify/pnotify.css")}} {{ stylesheet_link("assets/pnotify/pnotify.brighttheme.css")}}
+
 <!-- jQuery 3 -->
 {{ javascript_include("assets/bower_components/jquery/dist/jquery.min.js")}}
+
 <!-- DataTables -->
-{{ javascript_include("assets/bower_components/datatables.net/js/jquery.dataTables.min.js")}} 
-{{ javascript_include("assets/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js")}}
-<!-- morris-->
-{{ stylesheet_link("assets/bower_components/morris.js/morris.css")}}
-{{ javascript_include("assets/bower_components/morris.js/morris.min.js")}}
+{{ javascript_include("assets/bower_components/datatables.net/js/jquery.dataTables.min.js")}} {{ javascript_include("assets/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js")}}
+
+<!-- Morris -->
+<!-- Morris.js charts -->
 {{ javascript_include("assets/bower_components/raphael/raphael.min.js")}}
+{{ javascript_include("assets/bower_components/morris.js/morris.min.js")}}
+{{ stylesheet_link("assets/bower_components/morris.js/morris.css")}}

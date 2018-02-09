@@ -1,34 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
-   <head>
-      <meta charset="UTF-8">
-      {% include "layouts/header.volt" %}
-      <title></title>
-   </head>
-   <body class="hold-transition skin-blue sidebar-mini">
+<html>
 
-      <div class="wrapper">
+<head>
+    {% include "layouts/header.volt"%}
+</head>
 
-         {% include "layouts/navbar.volt" %}
-         
-         {% include "layouts/sidebar.volt" %}
-
-         <div class="content-wrapper">
+<body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+        {%include "layouts/navbar.volt"%} {%include "layouts/sidebar.volt"%}
+        <div class="content-wrapper">
             {{ content() }}
-         </div>
-
-         <footer class="main-footer">
+        </div>
+        <!-- /.content-wrapper -->
+        <footer class="main-footer">
             <div class="pull-right hidden-xs">
-               <b>Version</b> 2.4.0
+                <b>Version</b> 2.4.0
             </div>
-            <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights
-            reserved.
-         </footer>
+            <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights reserved.
+        </footer>
+        <!-- /.control-sidebar -->
+        <!-- Add the sidebar's background. This div must be placed
+           immediately after the control sidebar -->
+        <div class="control-sidebar-bg"></div>
+    </div>
+    {%include "layouts/footer.volt"%}
+    <!-- ./wrapper -->
+</body>
 
-
-         {% include "layouts/footer.volt" %}
-
-      </div>
-
-   </body>
 </html>

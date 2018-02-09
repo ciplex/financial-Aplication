@@ -14,5 +14,6 @@
   },
   "_source": "https://github.com/flot/flot.git",
   "_target": "^0.8.3",
-  "_originalSource": "flot"
+  "_originalSource": "flot",
+  "_direct": true
 }

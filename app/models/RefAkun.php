@@ -7,14 +7,14 @@ class RefAkun extends \Phalcon\Mvc\Model
      *
      * @var string
      * @Primary
-     * @Column(column="id", type="string", length=3, nullable=false)
+     * @Column(type="string", length=3, nullable=false)
      */
     public $id;
 
     /**
      *
      * @var string
-     * @Column(column="nama", type="string", length=16, nullable=false)
+     * @Column(type="string", length=16, nullable=false)
      */
     public $nama;
 
@@ -24,7 +24,6 @@ class RefAkun extends \Phalcon\Mvc\Model
     public function initialize()
     {
         $this->setSchema("qodr");
-        $this->setSource("ref_akun");
     }
 
     /**
@@ -41,9 +40,9 @@ class RefAkun extends \Phalcon\Mvc\Model
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
-     * @return RefAkun[]|RefAkun|\Phalcon\Mvc\Model\ResultSetInterface
+     * @return RefAkun[]|RefAkun
      */
-   public static function find($parameters = null)
+    public static function find($parameters = null)
     {
         return parent::find($parameters);
     }
@@ -52,99 +51,83 @@ class RefAkun extends \Phalcon\Mvc\Model
      * Allows to query the first record that match the specified conditions
      *
      * @param mixed $parameters
-   * @return RefAkun|\Phalcon\Mvc\Model\ResultInterface
+     * @return RefAkun
      */
     public static function findFirst($parameters = null)
     {
         return parent::findFirst($parameters);
     }
 
-    public function getData() 
+     public function getDataRefAkun() 
     {
+        
+        $requestData  = $_REQUEST;
+        $requestSearch = strtoupper($requestData['search']['value']);
 
+        $columns = array (
+            0 => 'id',
+            1 => 'nama',
+            // 2 => 'periode',
+            2 => 'nominal',
+            // 2 => 'password',
+            // 3 => 'type',
+        );
 
-       $sql = "SELECT a.*, SUM(h.kredit) as Pengeluaran, date_format(h.tanggal, '%Y-%m') as Bulan, h.akun_id as Kode FROM RefAkun a, KeuHarian h WHERE h.akun_id = a.id GROUP BY Bulan, h.akun_id ORDER BY Bulan DESC";
-       $query = $this->modelsManager->executeQuery($sql);
+        $sql = "SELECT * FROM RefAkun";
+        $query = $this->modelsManager->executeQuery($sql);
+        $totalData = count($query);
+        $totalFiltered = $totalData;  
+        $no = $requestData['start']+1;
+        $start = $requestData['start'];
+        $length = $requestData['length'];
 
-       $data = array();
-       $no = $requestData['start']+1;
+        if (!empty($requestSearch)) {
+        //function mencari data keuharian
+            $sql = "SELECT * FROM KeuHarian WHERE nama_barang LIKE '%".$requestSearch."%'";
+            $sql.= "OR cabang_id LIKE '%".$requestSearch."%'";
+            $sql.= "OR tanggal LIKE '%".$requestSearch."%'";
+            $sql.= "OR akun_id LIKE '%".$requestSearch."%'";
+            $sql.= "OR jml_barang LIKE '%".$requestSearch."%'";
+            $sql.= "OR harga_satuan LIKE '%".$requestSearch."%'";
+            $sql.= "OR satuan_barang_id LIKE '%".$requestSearch."%'";
+            $sql.= "OR total_harga LIKE '%".$requestSearch."%'";
+            $sql.= "OR debit LIKE '%".$requestSearch."%'";
+            $sql.= "OR kredit LIKE '%".$requestSearch."%'";
+            $sql.= "OR keterangan LIKE '%".$requestSearch."%'";
+            $sql.= "OR pelaku LIKE '%".$requestSearch."%'";
+            $query = $this->modelsManager->executeQuery($sql); 
+            $totalFiltered = count($query);
 
-       foreach($query as $key => $value) {
-          $dataAkun = array();
-          $dataAkun[] = $no;
-          $dataAkun[] = date("F, Y", strtotime($value->Bulan));
-          $dataAkun[] = $value->Kode;
-          $dataAkun[] = $value->a->nama;
-          $dataAkun[] = "Rp ".number_format($value->Pengeluaran);
+            $sql.=" ORDER BY ". $columns[$requestData['order'][0]['column']]."   ".$requestData['order'][0]['dir']."   LIMIT ".$requestData['start']." ,".$requestData['length']."   ";
+            $query = $this->modelsManager->executeQuery($sql); 
+        } else {
+        //function menampilkan seluruh data
+            $sql = "SELECT * FROM RefAkun limit $start,$length";
+            $query = $this->modelsManager->executeQuery($sql);
+        }
+        
+        $data = array();
+        
 
-          $data[] = $dataAkun;
-          $no++;
-       }
+        foreach ($query as $key => $value) {
+            $dataRefAkun = array();
+            $dataRefAkun[] = $no;
+            $dataRefAkun[] = $value->id;
+            $dataRefAkun[] = $value->nama;
+            $dataRefAkun[] = $nominal[0]['total'];
 
-       $json_data = array(
-          "draw"            => intval( $requestData['draw'] ),
-          "recordsTotal"    => intval( $totalData ),
-          "recordsFiltered" => intval( $totalFiltered ),
-          "data"            => $data
-       );
+            $data[] = $dataRefAkun;
+            $no++;
+        }
 
-       return $json_data;
+                
+        $json_data = array(
+            "draw"            => intval( $requestData['draw'] ),  
+            "recordsTotal"    => intval( $totalData ),
+            "recordsFiltered" => intval( $totalFiltered ), 
+            "data"            => $data
+        );
+        
+        return $json_data; 
     }
-
-    /**
-     * undocumented function
-     *
-     * @return void
-     */
-    public function filter($Bulan, $Tahun)
-    {
-       $filter = $Tahun.'-'.$Bulan.'-%';
-
-       $sql = "SELECT a.*, SUM(h.kredit) as Pengeluaran, date_format(h.tanggal, '%Y-%m') as Bulan, h.akun_id as Kode FROM RefAkun a, KeuHarian h WHERE h.akun_id = a.id AND h.tanggal LIKE '$filter' GROUP BY Bulan, h.akun_id ORDER BY Bulan DESC";
-       $query = $this->modelsManager->executeQuery($sql);
-
-       $data = array();
-       $no = $requestData['start']+1;
-       
-       foreach($query as $key => $value) {
-          $dataAkun = array();
-          $dataAkun[] = $no;
-          $dataAkun[] = date("F, Y", strtotime($value->Bulan));
-          $dataAkun[] = $value->Kode;
-          $dataAkun[] = $value->a->nama;
-          $dataAkun[] = "Rp ".number_format($value->Pengeluaran);
-
-          $data[] = $dataAkun;
-          $no++;
-       }
-
-       $json_data = array(
-          "draw"            => intval( $requestData['draw'] ),
-          "recordsTotal"    => intval( $totalData ),
-          "recordsFiltered" => intval( $totalFiltered ),
-          "data"            => $data
-       );
-
-       return $json_data;
-    }
-
-    //public function dataBulan($selected = null)
-    //{
-       //$sql = "SELECT date_format(tanggal, '%Y-%m') as Bulan FROM KeuHarian GROUP BY Bulan";
-       //$query = $this->modelsManager->executeQuery($sql);
-
-      //$dataBulan = '<option value="">All Kode</option>';
-
-       //foreach($query as $key => $value)
-       //{
-          //if ($selected == $value->tanggal) {
-            //$dataBulan.='<option value="'.date("m", strtotime($value->tanggal)).'" selected>'.date("F", strtotime($value->tanggal)).'</option>';
-          //} else {
-            //$dataBulan.='<option value="'.date("m", strtotime($value->tanggal)).'">'.date("F", strtotime($value->tanggal)).'</option>';
-          //}
-       //}
-
-       //return $dataBulan;
-    //}
-
 }

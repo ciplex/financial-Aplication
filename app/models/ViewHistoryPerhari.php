@@ -6,30 +6,30 @@ class ViewHistoryPerhari extends \Phalcon\Mvc\Model
     /**
      *
      * @var string
-     * @Column(column="Hari", type="string", length=72, nullable=true)
+     * @Column(type="string", length=72, nullable=true)
      */
-    public $hari;
+    public $Hari;
 
     /**
      *
      * @var string
-     * @Column(column="Kode", type="string", length=3, nullable=false)
+     * @Column(type="string", length=3, nullable=false)
      */
-    public $kode;
+    public $Kode;
 
     /**
      *
      * @var string
-     * @Column(column="Kategori", type="string", length=16, nullable=false)
+     * @Column(type="string", length=16, nullable=false)
      */
-    public $kategori;
+    public $Kategori;
 
     /**
      *
      * @var double
-     * @Column(column="Nominal", type="double", length=32, nullable=true)
+     * @Column(type="double", length=32, nullable=true)
      */
-    public $nominal;
+    public $Nominal;
 
     /**
      * Initialize method for model.
@@ -37,7 +37,6 @@ class ViewHistoryPerhari extends \Phalcon\Mvc\Model
     public function initialize()
     {
         $this->setSchema("qodr");
-        $this->setSource("view_history_perhari");
     }
 
     /**
@@ -54,7 +53,7 @@ class ViewHistoryPerhari extends \Phalcon\Mvc\Model
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
-     * @return ViewHistoryPerhari[]|ViewHistoryPerhari|\Phalcon\Mvc\Model\ResultSetInterface
+     * @return ViewHistoryPerhari[]|ViewHistoryPerhari
      */
     public static function find($parameters = null)
     {
@@ -65,16 +64,17 @@ class ViewHistoryPerhari extends \Phalcon\Mvc\Model
      * Allows to query the first record that match the specified conditions
      *
      * @param mixed $parameters
-     * @return ViewHistoryPerhari|\Phalcon\Mvc\Model\ResultInterface
+     * @return ViewHistoryPerhari
      */
     public static function findFirst($parameters = null)
     {
         return parent::findFirst($parameters);
     }
 
-    public function getDataHistory()
+     public function getDataHistory()
     {
         $requestData = $_REQUEST;
+        $filterAkun = $akun;
         // echo "<pre>".print_r($_REQUEST)."</pre>";
         $requestSearch = strtoupper($_REQUEST['search']['value']);
         $columns = array(
@@ -103,7 +103,7 @@ class ViewHistoryPerhari extends \Phalcon\Mvc\Model
             $query = $this->modelsManager->executeQuery($sql);
         } else {
             //function menampilkan seluruh data
-            $sql = "SELECT * FROM ViewHistoryPerhari limit $start,$length";
+            $sql = "SELECT * FROM ViewHistoryPerhari limit  $start,$length";
             $query = $this->modelsManager->executeQuery($sql);
         }
         $data = array();
@@ -125,4 +125,71 @@ class ViewHistoryPerhari extends \Phalcon\Mvc\Model
         );
         return $json_data;
     }
+
+     public function filter($Bulan, $Tahun, $Kode)
+    {
+       $filter = '%'.$Bulan.'%'.'-'.$Tahun;
+       $akunnya = $Kode;
+       $sql = "SELECT * FROM ViewHistoryPerhari WHERE Hari LIKE '$filter' AND Kode LIKE '$akunnya'";
+       $query = $this->modelsManager->executeQuery($sql);
+       $data = array();
+       $no = $requestData['start']+1;
+       
+       foreach($query as $key => $value) {
+          $dataAkun = array();
+          $dataAkun[] = $no;
+          $dataAkun[] = $value->Hari;
+          $dataAkun[] = $value->Kode;
+          $dataAkun[] = $value->Kategori;
+          $dataAkun[] = $value->Nominal;
+          $data[] = $dataAkun;
+          $no++;
+       }
+       $json_data = array(
+          "draw"            => intval( $requestData['draw'] ),
+          "recordsTotal"    => intval( $totalData ),
+          "recordsFiltered" => intval( $totalFiltered ),
+          "data"            => $data
+       );
+       return $json_data;
+    }
+
+    public function getDataGraphic()
+    {
+       $sql = "SELECT * FROM ViewHistoryPerhari LIMIT 10";
+       $query = $this->modelsManager->executeQuery($sql);
+
+       $data = array();
+        
+        foreach ($query as $key => $value) {
+            $dataUser = array();
+            $tanggal = str_replace(' ','', $value->Hari);
+            $dataUser['tanggal'] = $tanggal;
+            $dataUser['nominal'] = $value->Nominal;
+          
+            $data[] = $dataUser;
+        }
+                
+        return $data; 
+    }
+
+    public function graphicFilter($Kode)
+    {
+       $akunnya = $Kode;
+       $sql = "SELECT * FROM ViewHistoryPerhari WHERE Kode LIKE '$akunnya' LIMIT 10";
+       $query = $this->modelsManager->executeQuery($sql);
+       $data = array();
+       
+       foreach($query as $key => $value) {
+          $dataAkun = array();
+          $tanggal = str_replace(' ','', $value->Hari);
+          $dataAkun['tanggal'] = $value->Hari;
+          $dataAkun['nominal'] = $value->Nominal;
+          
+          $data[] = $dataAkun;
+       }
+
+       return $data;
+    }
+
 }
